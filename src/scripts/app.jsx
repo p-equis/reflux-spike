@@ -5,7 +5,7 @@ var Reflux = require("reflux");
 var Router        = require('react-router');
 var RouteHandler  = Router.RouteHandler;
 var Route         = Router.Route;
-// var NotFoundRoute = Router.NotFoundRoute;
+var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute  = Router.DefaultRoute;
 var Link          = Router.Link;
 
@@ -26,12 +26,25 @@ var FlightStatusSearchForm = React.createClass({
 		return (
 			<div>
 			  <div>
-			    <input ref='departureCity' placeholder={this.state.from}/>
+			    <input placeholder={this.state.from}/>
 			  </div>
 			  <div>
-			    <input ref='arrivalCity' placeholder={this.state.to}/>
+			    <input placeholder={this.state.to}/>
 			  </div>
 			  <Link to='flightStatusSearch' params={this.state}>Search</Link>
+			</div>
+		);
+	}
+});
+
+var BadFlightStatusSearchRequest = React.createClass({
+	render: function() {
+		return (
+			<div>
+			  <div class="error">
+			    You must provide the departure city, arrival city, and date of travel.
+			  </div>
+			  <FlightStatusSearchForm />
 			</div>
 		);
 	}
@@ -78,6 +91,7 @@ var routes = (
     <Route handler={ App }>
       <Route name="flightStatusForm" path="/" handler={ FlightStatusSearchForm }/>
       <Route name="flightStatusSearch" path="/:from/:to/:date" handler={ FlightStatusSearchResults } />
+      <NotFoundRoute name="notFound" path="/" handler={ BadFlightStatusSearchRequest } />
     </Route>
 );
 
