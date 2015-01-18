@@ -66,7 +66,7 @@ gulp.task('scripts', function() {
         return bundler.bundle()
             .on('error', onError)
             .pipe(source('app.js'))
-            .pipe(prod ? $.streamify($.uglify()) : $.util.noop())
+            .pipe($.streamify($.uglify()))
             .pipe(gulp.dest('dist/scripts'))
             .pipe($.notify(function() {
                 console.log('Bundling Complete - ' + (Date.now() - start) + 'ms');
