@@ -2,35 +2,85 @@
 var React = require("react");
 var Reflux = require("reflux");
 
+var Router        = require('react-router');
+var RouteHandler  = Router.RouteHandler;
+var Route         = Router.Route;
+// var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute  = Router.DefaultRoute;
+var Link          = Router.Link;
+
 var actions = Reflux.createActions([
 	"checkFlightStatus"
 ]);
 
-actions.checkFlightStatus.preEmit = function(searchRequest) {
-  alert(searchRequest.departureCity);
-};
-
-var FlightStatusSearch = React.createClass({
+var FlightStatusSearchForm = React.createClass({
+	mixins: [Router.Navigation],
+	getInitialState: function() {
+		return {
+			from: 'departure',
+			to: 'arrival',
+			date: '2015-01-25'
+		}
+	},
 	render: function() {
 		return (
 			<div>
 			  <div>
-			    <label>Departure City</label>
-			    <input ref='departureCity'/>
+			    <input ref='departureCity' placeholder={this.state.from}/>
 			  </div>
 			  <div>
-			    <label>Arrival City</label>
-			    <input ref='arrivalCity'/>
+			    <input ref='arrivalCity' placeholder={this.state.to}/>
 			  </div>
-			  <button onClick={this._checkFlightStatus}>Check status</button>
+			  <Link to='flightStatusSearch' params={this.state}>Search</Link>
 			</div>
 		);
-	},
-	_checkFlightStatus: function() {
-		actions.checkFlightStatus({ 
-			departureCity: this.refs['departureCity'].getDOMNode().value 
-		});
 	}
 });
 
-React.render(<FlightStatusSearch />, document.getElementById('appRoot'))
+var FlightStatusStore = Reflux.createStore({
+	init: function() {
+		this.listenTo(actions.checkFlightStatus, "checkFlightStatus");
+	},
+	getStatuses: function() {
+		return [{
+
+		}];
+	},
+	checkFlightStatus: function() {
+		this.trigger();
+	}
+});
+
+var FlightStatusSearchResults = React.createClass({
+	mixins: [
+		Router.Navigation
+	],
+	render: function() {
+		return (
+			<div>
+			  It works!
+			</div>
+		);
+	}
+});
+
+var App = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <RouteHandler/>
+      </div>
+    );
+  }
+});
+
+var routes = (
+    <Route handler={ App }>
+      <Route name="flightStatusForm" path="/" handler={ FlightStatusSearchForm }/>
+      <Route name="flightStatusSearch" path="/:from/:to/:date" handler={ FlightStatusSearchResults } />
+    </Route>
+);
+
+Router.run(routes, function(Handler, state) {
+    React.render(<Handler params={ state.params } />, document.getElementById('appRoot'));
+});
