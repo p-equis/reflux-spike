@@ -14,7 +14,18 @@ body {
 	padding: 19px 20px 20px;
 }
 
-input[type=submit] {
+a, a:hover {
+	color: white;
+	text-decoration: none;
+}
+
+$buttonColor: #FFBF27;
+
+.btn {
 	color: #111B40;
-	background-color: #FFBF27;
+	background-color: $buttonColor;
+}
+
+.btn-default:hover {
+	background-color: $buttonColor;
 }

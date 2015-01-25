@@ -1,13 +1,15 @@
 var React = require("react");
 var Input = require("react-bootstrap").Input;
+var ReactRouterBootstrap = require('react-router-bootstrap')
+  , ButtonLink = ReactRouterBootstrap.ButtonLink;
 
 var Login = React.createClass({
 	render: function() {
 		return (
-			<form className="form-horizontal">
-		      <Input type="text" placeholder="user name" wrapperClassName="col-xs-offset-1 col-xs-10" />
-		      <Input type="password" placeholder="password" wrapperClassName="col-xs-offset-1 col-xs-10" />
-		      <Input type="submit" value="Log In" wrapperClassName="col-xs-offset-1 col-xs-10" />
+			<form>
+		      <Input type="text" placeholder="user name"/>
+		      <Input type="password" placeholder="password"/>
+		      <ButtonLink to="home">Log In</ButtonLink>
 	      </form>
 		);
 	}
