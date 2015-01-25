@@ -35,6 +35,7 @@
     "lodash": "^2.4.1",
     "moment": "^2.8.4",
     "react": "^0.12.1",
+    "react-bootstrap": "^0.13.3",
     "react-router": "^0.11.6",
     "reactify": "^0.15.2",
     "reflux": "^0.1.15",

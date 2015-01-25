@@ -12,6 +12,7 @@ var Link          = Router.Link;
 
 var actions = require("./actions");
 var FlightStatusStore = require("./flightStatusStore");
+var Login = require("./login");
 
 var FlightStatusSearchForm = React.createClass({
 	mixins: [Router.Navigation, Reflux.listenTo(FlightStatusStore, "onStateChange")],
@@ -60,7 +61,8 @@ var BadFlightStatusSearchRequest = React.createClass({
 	render: function() {
 		return (
 			<div>
-			  <div class="error">
+			  <div className="alert alert-danger">
+			  <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 			    You must provide the departure city, arrival city, and date of travel.
 			  </div>
 			  <FlightStatusSearchForm />
@@ -86,17 +88,44 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
+        <Header />
         <RouteHandler/>
       </div>
     );
   }
 });
 
+var Header = React.createClass({
+	render: function() {
+		return (
+			<div>
+				<div className="page-header">
+					CompanyName
+				</div>
+				<Link to="home">Home</Link>
+			</div>
+		);
+	}
+});
+
+var Homepage = React.createClass({
+	render: function() {
+		return (
+			<div>
+				<Link to="login">Login</Link><br/>
+				<Link to="flightStatusForm">Flight Status</Link>
+			</div>
+		);
+	}
+});
+
 var routes = (
     <Route handler={ App }>
-      <Route name="flightStatusForm" path="/" handler={ FlightStatusSearchForm }/>
-      <Route name="flightStatusSearch" path="/:from/:to/:date" handler={ FlightStatusSearchResults } />
-      <NotFoundRoute name="notFound" path="/" handler={ BadFlightStatusSearchRequest } />
+      <Route name="home" path="/" handler = { Homepage } />
+      <Route name="login" path="/login" handler= { Login } />
+      <Route name="flightStatusForm" path="/flightStatus" handler={ FlightStatusSearchForm }/>
+      <Route name="flightStatusSearch" path="/flightStatus/:from/:to/:date" handler={ FlightStatusSearchResults } />
+      <NotFoundRoute name="notFound" handler={ BadFlightStatusSearchRequest } />
     </Route>
 );
 

@@ -1,0 +1,20 @@
+$brandMajor: #304CB2;
+
+body {
+	background: $brandMajor;
+}
+
+.page-header {
+	background: #1F3173;
+	color: white;
+	font-size: 26;
+	font-style: bold;
+	line-height: 20px;
+	margin-top: 0px;
+	padding: 19px 20px 20px;
+}
+
+input[type=submit] {
+	color: #111B40;
+	background-color: #FFBF27;
+}
