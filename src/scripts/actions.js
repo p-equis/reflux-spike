@@ -1,9 +1,17 @@
 var Reflux = require("reflux");
+var FlightStatusApi = require("./flightStatusApi");
 
-var actions = Reflux.createActions([
+var Actions = Reflux.createActions([
 	"checkFlightStatus",
 	"departureCitySelected",
-	"arrivalCitySelected"
+	"arrivalCitySelected",
+	"checkFlightStatusSucceeded"
 ]);
 
-module.exports = actions;
+Actions.checkFlightStatus.listen(function(flightStatusRequest) {
+	FlightStatusApi
+		.getSummaries(flightStatusRequest)
+		.then(Actions.checkFlightStatusSucceeded);
+});
+
+module.exports = Actions;

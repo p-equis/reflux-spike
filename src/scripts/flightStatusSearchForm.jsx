@@ -10,49 +10,64 @@ var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute  = Router.DefaultRoute;
 var Link          = Router.Link;
 
-var Input = require("react-bootstrap").Input;
-var ReactRouterBootstrap = require('react-router-bootstrap')
-  , ButtonLink = ReactRouterBootstrap.ButtonLink;
+var ReactBootstrap = require("react-bootstrap");
+var Input = ReactBootstrap.Input;
+var Button = ReactBootstrap.Button;
 
 var actions = require("./actions");
 var FlightStatusStore = require("./flightStatusStore");
 
 var FlightStatusSearchForm = React.createClass({
 	mixins: [
-		Router.Navigation, 
-		Reflux.listenTo(FlightStatusStore, "onStateChange")
+		Router.Navigation
 	],
 	getInitialState: function() {
-		return FlightStatusStore.getFormValues();
-	},
-	onStateChange: function(state) {
-		this.setState(FlightStatusStore.getFormValues());
+		return {
+			from: 'departure',
+			to: 'arrival',
+			date: new Date()
+		};
 	},
 	render: function() {
 		return (
 			<form>
 			 <AirportSelection
 			 	selection={this.state.from}
-			 	airports={this.state.fromAirports}
-			 	selectionAction={actions.departureCitySelected} />
+			 	onChange={this.onDepartureCitySelected} />
 			 <AirportSelection 
 			 	selection={this.state.to} 
-			 	airports={this.state.toAirports}
-			 	selectionAction={actions.arrivalCitySelected} />
-			  <ButtonLink to='flightStatusSearch' params={this.state}>Search</ButtonLink>
+			 	onChange={this.onArrivalCitySelected} />
+			  <Button onClick={this.onSearchClick}>Search</Button>
 			</form>
 		);
+	},
+	onDepartureCitySelected: function(city) {
+		this.setState({ from: city });
+	},
+	onArrivalCitySelected: function(city) {
+		this.setState({ to: city });
+	},
+	onSearchClick: function() {
+		this.transitionTo("flightStatusSearch", {
+			from: this.state.from,
+			to: this.state.to,
+			date: this.state.date
+		});
 	}
 });
 
 var AirportSelection = React.createClass({
+	propTypes: {
+		selection: React.PropTypes.string.isRequired,
+		onChange: React.PropTypes.func.isRequired
+	},
 	render: function() {
 		return (
-			<Input type="text" placeholder={this.props.selection} onChange={this._onSelect} />
+			<Input type="text" placeholder={this.props.selection} onChange={this.onChange} />
 		);
 	},
-	_onSelect: function(event) {
-		var action = this.props.selectionAction;
+	onChange: function(event) {
+		var action = this.props.onChange;
 		action(event.target.value);
 	}
 });
