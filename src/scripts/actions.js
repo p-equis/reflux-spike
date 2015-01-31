@@ -1,5 +1,5 @@
 var Reflux = require("reflux");
-var FlightStatusApi = require("./flightStatusApi");
+var FlightStatusApi = require("app/flightStatusApi");
 
 var Actions = Reflux.createActions([
 	"checkFlightStatus",

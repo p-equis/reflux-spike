@@ -8,6 +8,7 @@ var reactify   = require('reactify');
 var watchify   = require('watchify');
 var source     = require('vinyl-source-stream');
 var $          = require('gulp-load-plugins')();
+var fs         = require('fs');
 
 var prod = $.util.env.prod;
 
@@ -22,6 +23,29 @@ function onError() {
     }).apply(this, args);
     this.emit('end'); // Keep gulp from hanging on this task
     /* jshint ignore:end */
+}
+
+/* 
+ * This allows us to 'require' files relative to the /src/scripts directory
+ * instead of the current files directory. This is to avoid having requires 
+ * like:
+ *       require('../../Shared/thing')
+ *
+ * this would instead be:
+ *
+ *       require('app/Shared/thing')
+*/
+function symlinkAppIntoNodeModules() {
+    try {
+        fs.symlinkSync(__dirname + '/src/scripts', 'node_modules/app');
+    } catch(e) {
+        if(e.code === 'EEXIST') {
+            // ignore, this just means the sym link is already there
+        }
+        else {
+            throw e;
+        }
+    }
 }
 
 
@@ -45,12 +69,14 @@ gulp.task('styles', function() {
 
 // Scripts
 gulp.task('scripts', function() {
+    symlinkAppIntoNodeModules();
+
     var bundler;
     bundler = browserify({
         basedir: __dirname,
         noparse: ['react/addons', 'reflux', 'fastclick', 'react-router'],
         entries: ['./src/scripts/app.jsx'],
-        transform: [reactify],
+        transform: [[reactify, {global: true}]],
         extensions: ['.jsx'],
         debug: true,
         cache: {},

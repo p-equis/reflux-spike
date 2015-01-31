@@ -10,10 +10,10 @@ var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute  = Router.DefaultRoute;
 var Link          = Router.Link;
 
-var Actions = require("./actions");
-var FlightStatusStore = require("./flightStatusStore");
-var Login = require("./login");
-var FlightStatusSearchForm = require("./flightStatusSearchForm");
+var Actions = require("app/actions");
+var FlightStatusStore = require("app/flightStatusStore");
+var Login = require("app/login");
+var FlightStatusSearchForm = require("app/flightStatusSearchForm");
 
 var BadFlightStatusSearchRequest = React.createClass({
 	render: function() {
