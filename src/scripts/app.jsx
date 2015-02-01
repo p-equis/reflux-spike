@@ -11,9 +11,9 @@ var DefaultRoute  = Router.DefaultRoute;
 var Link          = Router.Link;
 
 var Actions = require("app/actions");
-var FlightStatusStore = require("app/flightStatusStore");
+var FlightStatusStore = require("app/flightStatus/flightStatusStore");
 var Login = require("app/login");
-var FlightStatusSearchForm = require("app/flightStatusSearchForm");
+var FlightStatusSearchForm = require("app/flightStatus/flightStatusSearchForm");
 
 var BadFlightStatusSearchRequest = React.createClass({
 	render: function() {
