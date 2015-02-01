@@ -63,6 +63,10 @@ var routes = (
     </Route>
 );
 
+Router.HashLocation.addChangeListener(function(change){
+	console.log("changed location!!" + change.path);
+});
+
 Router.run(routes, function(Handler, state) {
     React.render(<Handler params={ state.params } />, document.getElementById('appRoot'));
 });
