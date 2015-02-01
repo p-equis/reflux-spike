@@ -1,7 +1,7 @@
 var Reflux = require("reflux");
 var _ = require("lodash");
 
-var actions = require("app/actions");
+var actions = require("app/flightStatus/actions");
 
 var FlightStatusStore = Reflux.createStore({
 	init: function() {

@@ -14,8 +14,7 @@ var ReactBootstrap = require("react-bootstrap");
 var Input = ReactBootstrap.Input;
 var Button = ReactBootstrap.Button;
 
-var actions = require("app/actions");
-var FlightStatusStore = require("app/flightStatusStore");
+var FlightStatusStore = require("app/flightStatus/flightStatusStore");
 
 var FlightStatusSearchForm = React.createClass({
 	mixins: [
