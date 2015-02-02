@@ -140,6 +140,7 @@ gulp.task('serve', function() {
  
 gulp.task('test', function () {
     require('jsx-require-extension'); // this allows mocha to read JSX files
+    symlinkAppIntoNodeModules();
 
     return gulp
         .src(['test/**/*.jsx', 'test/setup.js'])
