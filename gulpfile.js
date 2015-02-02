@@ -137,17 +137,14 @@ gulp.task('serve', function() {
         }));
 });
 
+ 
+gulp.task('test', function () {
+    require('jsx-require-extension'); // this allows mocha to read JSX files
 
-// Testing
-gulp.task('jest', function() {
-    var nodeModules = path.resolve('./node_modules');
-    return gulp.src('src/scripts/**/__tests__')
-        .pipe($.jest({
-            scriptPreprocessor: nodeModules + '/gulp-jest/preprocessor.js',
-            unmockedModulePathPatterns: [nodeModules + '/react']
-        }));
+    return gulp
+        .src(['test/**/*.jsx', 'test/setup.js'])
+        .pipe($.mocha());
 });
-
 
 // Clean
 gulp.task('clean', function(cb) {
@@ -156,7 +153,7 @@ gulp.task('clean', function(cb) {
 
 
 // Default task
-gulp.task('default', ['clean', 'html', 'styles', 'scripts', 'jest']);
+gulp.task('default', ['clean', 'html', 'styles', 'scripts']);
 
 
 // Watch
